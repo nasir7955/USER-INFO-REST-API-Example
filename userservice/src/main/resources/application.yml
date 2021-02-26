@@ -1,0 +1,22 @@
+# Server config
+server:
+
+  port: ${PORT:8090}
+  #           ssl:
+  #             key-store.....not needed for this
+  tomcat:
+    max-connections: 500
+  keepAliveTimeout: 300000
+spring:
+  application:
+    name: USER INFO
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
