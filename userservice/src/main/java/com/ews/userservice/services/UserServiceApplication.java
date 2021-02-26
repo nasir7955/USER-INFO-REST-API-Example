@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SpringBootWebSecu
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.ews")
+@ComponentScan(basePackages = {"com.ews","com.ews.userservice"})
 public class UserServiceApplication {
 
 	public static void main(String[] args) {

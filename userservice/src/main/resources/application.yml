@@ -5,8 +5,11 @@ server:
   #           ssl:
   #             key-store.....not needed for this
   tomcat:
-    max-connections: 500
-  keepAliveTimeout: 300000
+    max-connections: 50
+
+  ssl:
+    enabled: false
+  connection-timeout: 300000
 spring:
   application:
     name: USER INFO

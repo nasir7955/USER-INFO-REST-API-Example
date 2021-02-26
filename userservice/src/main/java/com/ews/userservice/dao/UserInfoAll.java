@@ -10,8 +10,6 @@ import java.util.List;
 
 public class UserInfoAll extends AbstractUserInfo {
 
-
-
     private UserDao userDao;
 
     public UserInfoAll(){

@@ -41,6 +41,9 @@ public class UserInfoController {
         //Todo: Validate dupe request using Idempotency key, not in scope
         log.info("Create request received");
 
+        //todo: remove temp
+        userDao.creatTable();
+        ///
         UserDto dto = new UserDto();
         dto.setRequest(requestBody);
         dto.setServiceType(ActionEnum.CREATE.name());
@@ -66,11 +69,17 @@ public class UserInfoController {
 
         log.info("Retrieve all users request receive");
 
-
+        //todo: remove temp
+        try {
+            userDao.creatTable();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ///
         UserDto dto = new UserDto();
         //dto.setRequest(requestBody);
         dto.setServiceType(ActionEnum.RETRIEVEALL.name());
-        val userInfo = new UserInfoAll(userDao);
+        AbstractUserInfo userInfo = new UserInfoAll(userDao);
         userInfo.setDto(dto);
         UserInfoResponse userInfoSuccess = userFacade.execute(userInfo, header);
 

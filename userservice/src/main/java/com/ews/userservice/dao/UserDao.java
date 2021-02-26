@@ -5,28 +5,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-@Service
 public class UserDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private static final String CREATETABLE = "CREATE TABLE UserData (userName varchar(255) PRIMARY KEY NOT NULL , LastName varchar(255) NOT NULL, FirstName varchar(255) NOT NULL," +
+    private static final String CREATETABLE = "CREATE TABLE USERDATA (userName varchar(255) PRIMARY KEY NOT NULL , LastName varchar(255) NOT NULL, FirstName varchar(255) NOT NULL," +
             "email varchar(255) NOT NULL,phoneNo varchar(20) NOT NULL, " +
             "image BLOB(65535), password varchar(255) NOT NULL);";
 
-    private static final String CREATEUSER = "insert into userData (USERNAME, Lastname,firstname, email, phoneno, " +
+    private static final String CREATEUSER = "insert into USERDATA (USERNAME, Lastname,firstname, email, phoneno, " +
             "Image, password) values (?,?,?,?,?,?,?)";
-    private static final String SELECTUSERS = "Select * from userData";
-    private static final String DELETEUSER = "Delete from userdata where username = ?";
-    private static final String UPDATEUSER = "Update userdata set firstName=?, lastName =?,  email=?, password = ?, phoneNo=?, image=? where username = ?";
+    private static final String SELECTUSERS = "Select * from USERDATA";
+    private static final String DELETEUSER = "Delete from USERDATA where username = ?";
+    private static final String UPDATEUSER = "Update USERDATA set firstName=?, lastName =?,  email=?, password = ?, phoneNo=?, image=? where username = ?";
 
 
 

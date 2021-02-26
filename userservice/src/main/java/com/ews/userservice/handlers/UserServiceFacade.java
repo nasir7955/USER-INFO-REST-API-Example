@@ -11,8 +11,8 @@ import java.util.Map;
 @Component
 public class UserServiceFacade {
 
-    @Autowired
-    private UserExceptionHandler exceptionHandler;
+//    @Autowired
+//    private UserExceptionHandler exceptionHandler;
 
     public UserInfoResponse execute(AbstractUserInfo userInfo, Map<String,String> header){
 
