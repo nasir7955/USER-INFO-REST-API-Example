@@ -10,12 +10,30 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 
 @RestControllerAdvice
-public class UserExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ResponseBody
     @ExceptionHandler(ApplicationException.class)
     protected ResponseEntity<Object> handleException(Throwable t, WebRequest wr){
 
         return new ResponseEntity<Object>(t, HttpStatus.INTERNAL_SERVER_ERROR);
+
+    }
+
+    @ResponseBody
+    @ExceptionHandler(BusinessValidationException.class)
+    protected ResponseEntity<Object> handleBusinessException(Throwable t, WebRequest wr){
+
+        //construct error and send generic error response json message todo
+        return new ResponseEntity<Object>(t, HttpStatus.UNPROCESSABLE_ENTITY);
+
+    }
+
+    @ResponseBody
+    @ExceptionHandler(BadRequestException.class)
+    protected ResponseEntity<Object> handleBadRequestException(Throwable t, WebRequest wr){
+
+        //construct error and send generic error response json message todo
+        return new ResponseEntity<Object>(t, HttpStatus.BAD_REQUEST);
 
     }
 

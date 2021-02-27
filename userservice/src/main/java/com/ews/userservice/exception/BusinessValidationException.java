@@ -9,15 +9,8 @@ public class BusinessValidationException extends RuntimeException{
 
     public BusinessValidationException() {
 
+        //Todo: exception handling
 
-    }
-
-    @ExceptionHandler (value = {BusinessValidationException.class})
-    protected ResponseEntity<Object> handleException(BusinessValidationException bve, WebRequest wr){
-
-        //Todo: thru appropriate business exception message, status...etc
-        final ResponseEntity<Object> tResponseEntity = new ResponseEntity<Object>(bve, HttpStatus.BAD_REQUEST);
-        return tResponseEntity;
 
     }
 

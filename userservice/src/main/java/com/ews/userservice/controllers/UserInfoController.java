@@ -25,10 +25,6 @@ public class UserInfoController {
 
     @Autowired
     private UserServiceFacade userFacade;
-
-    @Autowired
-    private UserDao userDao;
-
     /**
      * Add new user
      * @param requestBody
@@ -50,6 +46,7 @@ public class UserInfoController {
         AbstractUserInfo userInfo = new UserInfoAdd();
         dto.setUserInfo(userInfo);
 
+        //get the data response
         boolean userInfoSuccess = userFacade.execute(dto);
         log.info(userInfoSuccess);
 
