@@ -9,6 +9,7 @@ import com.ews.userservice.model_pojos.UserInfoResponse;
 import lombok.extern.log4j.Log4j2;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,55 +34,46 @@ public class UserInfoController {
      * @param requestBody
      * @return
      */
-    @RequestMapping (value = "/adduser", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,
+    @PostMapping (value = "/adduser", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = "application/json")
     public ResponseEntity<String> addUser(@RequestBody UserData requestBody, @ModelAttribute HashMap<String,
                 String> header){
         //Todo: validate data & header based on business rules, not known as of now
         //Todo: Validate dupe request using Idempotency key, not in scope
+
         log.info("Create request received");
 
-        //todo: remove temp
-        userDao.creatTable();
-        ///
         UserDto dto = new UserDto();
+        dto.setHeaders(header);
         dto.setRequest(requestBody);
         dto.setServiceType(ActionEnum.CREATE.name());
         AbstractUserInfo userInfo = new UserInfoAdd();
-        userInfo.setDto(dto);
+        dto.setUserInfo(userInfo);
 
-
-
-        UserInfoResponse userInfoSuccess = userFacade.execute(userInfo, header);
+        boolean userInfoSuccess = userFacade.execute(dto);
         log.info(userInfoSuccess);
 
         HttpStatus status = HttpStatus.OK;
 
 
-        return new ResponseEntity<>(userInfoSuccess.toString(), status);
+        return new ResponseEntity<>(Boolean.toString(userInfoSuccess), status);
 
     }
 
     @RequestMapping(value ="/allusers_inquiry", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity <List<UserData>> getAllUsers(@ModelAttribute HashMap<String, String> header){
+    public ResponseEntity <List<UserData>> getAllUsers(@ModelAttribute HashMap<String, String> header) throws Exception {
 
-        //validate header and auth
+        //validate header and auth, send header to jwt validation service
 
         log.info("Retrieve all users request receive");
 
-        //todo: remove temp
-        try {
-            userDao.creatTable();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        ///
         UserDto dto = new UserDto();
         //dto.setRequest(requestBody);
         dto.setServiceType(ActionEnum.RETRIEVEALL.name());
-        AbstractUserInfo userInfo = new UserInfoAll(userDao);
-        userInfo.setDto(dto);
-        UserInfoResponse userInfoSuccess = userFacade.execute(userInfo, header);
+        AbstractUserInfo userInfo = new UserInfoAll();
+        dto.setUserInfo(userInfo);
+        //userInfo.setDto(dto);
+        boolean userInfoSuccess = userFacade.execute(dto);
 
         HttpStatus status = HttpStatus.OK;
 
@@ -94,7 +86,7 @@ public class UserInfoController {
     public ResponseEntity <String> deleteUser(@ModelAttribute HashMap<String, String> header,
                                               @PathVariable ("id") String userName){
 
-        //validate header and auth
+        //todo: validate header and auth, send header to jwt validation service
 
         UserData requestBody = new UserData();
         requestBody.setUserName(userName);
@@ -103,8 +95,8 @@ public class UserInfoController {
         dto.setRequest(requestBody);
         dto.setServiceType(ActionEnum.DELETE.name());
         AbstractUserInfo userInfo = new UserInfoDelete();
-        userInfo.setDto(dto);
-        UserInfoResponse userInfoSuccess = userFacade.execute(userInfo, header);
+        dto.setUserInfo(userInfo);
+        boolean ok = userFacade.execute(dto);
 
 
         return new ResponseEntity<>(status);
@@ -115,15 +107,15 @@ public class UserInfoController {
     public ResponseEntity <String> updateUser(@ModelAttribute HashMap<String, String> header,
                                               @RequestBody UserData requestBody){
 
-        //validate auth in header
+        //todo: validate header and auth, send header to jwt validation service
 
         HttpStatus status = HttpStatus.OK;
         UserDto dto = new UserDto();
         dto.setRequest(requestBody);
         dto.setServiceType(ActionEnum.UPDATE.name());
         AbstractUserInfo userInfo = new UserInfoUpdate();
-        userInfo.setDto(dto);
-        UserInfoResponse userInfoSuccess = userFacade.execute(userInfo, header);
+        dto.setUserInfo(userInfo);
+        boolean userInfoSuccess = userFacade.execute(dto);
 
         return new ResponseEntity<>(status);
 

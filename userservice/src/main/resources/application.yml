@@ -1,15 +1,20 @@
 # Server config
 server:
 
-  port: ${PORT:8090}
-  #           ssl:
-  #             key-store.....not needed for this
   tomcat:
+    port: 8080
     max-connections: 50
+    accesslog:
+      directory: logs
+      enabled: true
+      suffix: .log
+      prefix: access_logs
+      file-date-format: .yyyy-MM-dd
 
   ssl:
     enabled: false
   connection-timeout: 300000
+
 spring:
   application:
     name: USER INFO

@@ -1,5 +1,6 @@
 package com.ews.userservice.model_pojos;
 
+import com.ews.userservice.dto.UserDto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
@@ -17,6 +18,7 @@ public class UserInfoResponse {
     private String userName;
 
     private String message;
+    private UserDto dto;
 
     private LocalDateTime createTimeStamp;
     private List<UserData> userDataList;
