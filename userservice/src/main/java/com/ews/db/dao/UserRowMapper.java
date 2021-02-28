@@ -1,4 +1,4 @@
-package com.ews.userservice.dao;
+package com.ews.db.dao;
 
 import com.ews.userservice.model_pojos.UserData;
 import org.springframework.jdbc.core.RowMapper;

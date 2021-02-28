@@ -1,9 +1,10 @@
-package com.ews.userservice.dao;
+package com.ews.db.dao;
 
 import com.ews.userservice.model_pojos.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -11,6 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
+@Component
 public class UserDao {
 
     @Autowired

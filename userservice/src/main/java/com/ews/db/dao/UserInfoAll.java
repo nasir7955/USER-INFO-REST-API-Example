@@ -1,25 +1,23 @@
-package com.ews.userservice.dao;
+package com.ews.db.dao;
 
 import com.ews.userservice.dto.UserDto;
 import com.ews.userservice.model_pojos.UserData;
 import com.ews.userservice.model_pojos.UserInfoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class UserInfoAdd extends AbstractUserInfo {
+
+public class UserInfoAll extends AbstractUserInfo {
 
     @Autowired
     private UserDao userDao;
 
+    public UserInfoAll(){
 
+    }
 
-    /*   public UserInfoAll(UserDao userDao){
-           this.userDao = userDao;
-       }*/
     @Override
     public UserInfoResponse process(UserDto dto) {
         List<UserData> userDataList = userDao.retrieveAllUsers();

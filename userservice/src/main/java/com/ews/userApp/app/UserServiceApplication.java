@@ -1,4 +1,4 @@
-package com.ews.userservice.app;
+package com.ews.userApp.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication(exclude={SecurityAutoConfiguration.class})
-@ComponentScan(basePackages = {"com.ews","com.ews.userservice"})
+@ComponentScan(basePackages = {"com.ews"})
 public class UserServiceApplication {
 
 	public static void main(String[] args) {

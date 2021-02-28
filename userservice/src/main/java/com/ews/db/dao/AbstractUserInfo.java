@@ -1,4 +1,4 @@
-package com.ews.userservice.dao;
+package com.ews.db.dao;
 
 import com.ews.userservice.dto.UserDto;
 import com.ews.userservice.model_pojos.UserInfoResponse;

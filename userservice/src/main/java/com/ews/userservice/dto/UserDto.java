@@ -1,8 +1,9 @@
 package com.ews.userservice.dto;
 
-import com.ews.userservice.dao.AbstractUserInfo;
+import com.ews.db.dao.AbstractUserInfo;
 
 import com.ews.userservice.model_pojos.UserInfoResponse;
+import com.ews.userservice.model_pojos.UserResponseInterface;
 import org.apache.commons.chain.impl.ContextBase;
 
 import java.io.Serializable;
@@ -13,14 +14,14 @@ public class UserDto extends ContextBase implements Serializable {
     private static final long serialVersionUID = 1L;
     private String serviceType;
     private AbstractUserInfo userInfo;
-    private UserInfoResponse response;
+    private UserResponseInterface response;
     private Map<String,String> headers;
 
-    public UserInfoResponse getResponse() {
+    public UserResponseInterface getResponse() {
         return response;
     }
 
-    public void setResponse(UserInfoResponse response) {
+    public void setResponse(UserResponseInterface response) {
         this.response = response;
     }
 

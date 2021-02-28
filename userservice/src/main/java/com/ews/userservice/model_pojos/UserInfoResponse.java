@@ -13,7 +13,7 @@ import java.util.List;
 @JsonPropertyOrder({"userName","message", "createTimeStamp"})
 @Getter
 @Setter
-public class UserInfoResponse {
+public class UserInfoResponse implements UserResponseInterface {
 
     private String userName;
 

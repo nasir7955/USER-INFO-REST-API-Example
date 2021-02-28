@@ -1,5 +1,6 @@
 package com.ews.userservice.exception;
 
+import com.ews.userservice.model_pojos.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,6 +34,10 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleBadRequestException(Throwable t, WebRequest wr){
 
         //construct error and send generic error response json message todo
+        ErrorResponse errorResponse = new ErrorResponse();
+        errorResponse.setErrCode(HttpStatus.BAD_REQUEST.toString());
+        errorResponse.setErrMessage(t.getMessage());
+
         return new ResponseEntity<Object>(t, HttpStatus.BAD_REQUEST);
 
     }

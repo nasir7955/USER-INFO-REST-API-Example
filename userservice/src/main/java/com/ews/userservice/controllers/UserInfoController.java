@@ -1,15 +1,14 @@
 package com.ews.userservice.controllers;
 
-import com.ews.userservice.dao.*;
+import com.ews.db.dao.*;
 import com.ews.userservice.dto.UserDto;
 import com.ews.userservice.enums.ActionEnum;
 import com.ews.userservice.handlers.UserServiceFacade;
 import com.ews.userservice.model_pojos.UserData;
 import com.ews.userservice.model_pojos.UserInfoResponse;
 import lombok.extern.log4j.Log4j2;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +20,7 @@ import java.util.List;
 @Log4j2
 @RestController
 @RequestMapping("/user/info/v1")
+@ComponentScan(basePackages = {"com.ews"})
 public class UserInfoController {
 
     @Autowired
@@ -30,8 +30,7 @@ public class UserInfoController {
      * @param requestBody
      * @return
      */
-    @PostMapping (value = "/adduser", consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = "application/json")
+    @PostMapping (value = "/adduser/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<String> addUser(@RequestBody UserData requestBody, @ModelAttribute HashMap<String,
                 String> header){
         //Todo: validate data & header based on business rules, not known as of now
@@ -48,16 +47,15 @@ public class UserInfoController {
 
         //get the data response
         boolean userInfoSuccess = userFacade.execute(dto);
-        log.info(userInfoSuccess);
+        UserInfoResponse userInfoResponse = (UserInfoResponse)dto.getResponse();
+        log.info(userInfoResponse);
 
-        HttpStatus status = HttpStatus.OK;
-
-
-        return new ResponseEntity<>(Boolean.toString(userInfoSuccess), status);
+        HttpStatus status = HttpStatus.CREATED;
+        return new ResponseEntity<>(userInfoResponse.toString(), status);
 
     }
 
-    @RequestMapping(value ="/allusers_inquiry", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(value ="/allusers_inquiry/", produces = "application/json")
     public ResponseEntity <List<UserData>> getAllUsers(@ModelAttribute HashMap<String, String> header) throws Exception {
 
         //validate header and auth, send header to jwt validation service
@@ -65,21 +63,22 @@ public class UserInfoController {
         log.info("Retrieve all users request receive");
 
         UserDto dto = new UserDto();
-        //dto.setRequest(requestBody);
+
         dto.setServiceType(ActionEnum.RETRIEVEALL.name());
+        dto.setHeaders(header);
         AbstractUserInfo userInfo = new UserInfoAll();
         dto.setUserInfo(userInfo);
-        //userInfo.setDto(dto);
         boolean userInfoSuccess = userFacade.execute(dto);
 
-        HttpStatus status = HttpStatus.OK;
+        UserInfoResponse infoResponse = (UserInfoResponse)dto.getResponse();
 
-        return new ResponseEntity<>(status);
+        HttpStatus status = HttpStatus.OK;
+        return new ResponseEntity<>(infoResponse.getUserDataList(),status);
 
     }
 
 
-    @RequestMapping(value ="/delete/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value ="/delete/{id}")
     public ResponseEntity <String> deleteUser(@ModelAttribute HashMap<String, String> header,
                                               @PathVariable ("id") String userName){
 
@@ -94,13 +93,13 @@ public class UserInfoController {
         AbstractUserInfo userInfo = new UserInfoDelete();
         dto.setUserInfo(userInfo);
         boolean ok = userFacade.execute(dto);
+        UserInfoResponse response = (UserInfoResponse)dto.getResponse();
 
-
-        return new ResponseEntity<>(status);
+        return new ResponseEntity<>(response.getMessage(),status);
 
     }
 
-    @RequestMapping(value ="/updateuser", method = RequestMethod.PUT)
+    @PutMapping(value ="/updateuser/")
     public ResponseEntity <String> updateUser(@ModelAttribute HashMap<String, String> header,
                                               @RequestBody UserData requestBody){
 
@@ -112,9 +111,10 @@ public class UserInfoController {
         dto.setServiceType(ActionEnum.UPDATE.name());
         AbstractUserInfo userInfo = new UserInfoUpdate();
         dto.setUserInfo(userInfo);
-        boolean userInfoSuccess = userFacade.execute(dto);
+        userFacade.execute(dto);
+        UserInfoResponse response = (UserInfoResponse)dto.getResponse();
 
-        return new ResponseEntity<>(status);
+        return new ResponseEntity<>(response.getMessage(),status);
 
     }
 
