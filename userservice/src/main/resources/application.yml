@@ -1,8 +1,6 @@
 # Server config
 server:
-
   tomcat:
-    port: 8080
     max-connections: 50
     accesslog:
       directory: logs
@@ -10,10 +8,11 @@ server:
       suffix: .log
       prefix: access_logs
       file-date-format: .yyyy-MM-dd
+    connection-timeout: 300000
 
   ssl:
     enabled: false
-  connection-timeout: 300000
+  port: 8080
 
 spring:
   application:

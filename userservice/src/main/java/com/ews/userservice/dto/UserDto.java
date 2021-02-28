@@ -1,8 +1,7 @@
 package com.ews.userservice.dto;
 
-import com.ews.db.dao.AbstractUserInfo;
+import com.ews.db.jpa.AbstractUserInfo;
 
-import com.ews.userservice.model_pojos.UserInfoResponse;
 import com.ews.userservice.model_pojos.UserResponseInterface;
 import org.apache.commons.chain.impl.ContextBase;
 

@@ -1,15 +1,16 @@
-package com.ews.db.dao;
+package com.ews.db.jpa;
 
 import com.ews.userservice.dto.UserDto;
 import com.ews.userservice.model_pojos.UserData;
 import com.ews.userservice.model_pojos.UserInfoResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 
 import java.time.LocalDateTime;
 import java.util.List;
-@ComponentScan(basePackages = {"com.ews.db.dao"})
-public class UserInfoAdd extends AbstractUserInfo {
+
+public class UserInfoFindAll implements AbstractUserInfo {
+
+
     private UserDao userDao;
 
     @Autowired
@@ -19,8 +20,8 @@ public class UserInfoAdd extends AbstractUserInfo {
 
     @Override
     public UserInfoResponse process(UserDto dto) {
-        UserData user = (UserData)dto.getRequest();
-        int rowsAdded = userDao.updateUser(user);
-        return new UserInfoResponse(user.getUserName(), " Was Added", LocalDateTime.now());
+        userDao = (UserDao)dto.get("dao");
+        List<UserData> userDataList = userDao.retrieveAllUsers();
+        return new UserInfoResponse(null,userDataList, LocalDateTime.now());
     }
 }
