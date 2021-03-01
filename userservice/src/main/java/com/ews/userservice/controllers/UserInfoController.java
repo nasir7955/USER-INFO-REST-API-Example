@@ -19,7 +19,7 @@ import java.util.List;
 
 @Log4j2
 @RestController
-@ComponentScan (basePackages = "com.ews")
+@ComponentScan(basePackages = "com.ews")
 @RequestMapping("/users/info/v1")
 public class UserInfoController {
 
@@ -27,7 +27,14 @@ public class UserInfoController {
     private UserServiceFacade userFacade;
 
     @Autowired
-    private UserDao userDao;
+    private UserInfoAdd userInfoAdd;
+
+    @Autowired
+    private UserInfoDelete userInfoDelete;
+    @Autowired
+    private UserInfoFindAll userInfoFindAll;
+    @Autowired
+    private UserInfoUpdate userInfoUpdate;
 
     /**
      * Add new user
@@ -46,10 +53,9 @@ public class UserInfoController {
         dto.setHeaders(header);
         dto.setRequest(requestBody);
         dto.setServiceType(ActionEnum.CREATE.name());
-        AbstractUserInfo userInfo = new UserInfoAdd();
-        dto.setUserInfo(userInfo);
+        //AbstractUserInfo userInfo = new UserInfoAdd();
+        dto.setUserInfo(userInfoAdd);
 
-        dto.put("dao", userDao);
         boolean userInfoSuccess = userFacade.execute(dto);
         UserInfoResponse userInfoResponse = (UserInfoResponse)dto.getResponse();
         log.info(userInfoResponse);
@@ -59,6 +65,12 @@ public class UserInfoController {
 
     }
 
+    /**
+     * find all users
+     * @param header
+     * @return
+     * @throws Exception
+     */
     @GetMapping(value ="/users_inquiry", produces = "application/json")
     public ResponseEntity <List<UserData>> getAllUsers(@ModelAttribute HashMap<String, String> header) throws Exception {
 
@@ -70,9 +82,9 @@ public class UserInfoController {
 
         dto.setServiceType(ActionEnum.RETRIEVEALL.name());
         dto.setHeaders(header);
-        AbstractUserInfo userInfo = new UserInfoFindAll();
-        dto.setUserInfo(userInfo);
-        dto.put("dao", userDao);
+        //AbstractUserInfo userInfo = new UserInfoFindAll();
+        dto.setUserInfo(userInfoFindAll);
+
         boolean userInfoSuccess = userFacade.execute(dto);
 
         UserInfoResponse infoResponse = (UserInfoResponse)dto.getResponse();
@@ -82,7 +94,12 @@ public class UserInfoController {
 
     }
 
-
+    /**
+     * Delete a user
+     * @param header
+     * @param userName
+     * @return
+     */
     @DeleteMapping(value ="/delete/{id}")
     public ResponseEntity <String> deleteUser(@ModelAttribute HashMap<String, String> header,
                                               @PathVariable ("id") String userName){
@@ -95,9 +112,9 @@ public class UserInfoController {
         UserDto dto = new UserDto();
         dto.setRequest(requestBody);
         dto.setServiceType(ActionEnum.DELETE.name());
-        AbstractUserInfo userInfo = new UserInfoDelete();
-        dto.setUserInfo(userInfo);
-        dto.put("dao", userDao);
+        //AbstractUserInfo userInfo = new UserInfoDelete();
+        dto.setUserInfo(userInfoDelete);
+
         boolean ok = userFacade.execute(dto);
         UserInfoResponse response = (UserInfoResponse)dto.getResponse();
 
@@ -105,6 +122,12 @@ public class UserInfoController {
 
     }
 
+    /**
+     * update a user
+     * @param header
+     * @param requestBody
+     * @return
+     */
     @PutMapping(value ="/updateuser", consumes = "application/json", produces = "application/json")
     public ResponseEntity <Object> updateUser(@ModelAttribute HashMap<String, String> header,
                                               @RequestBody UserData requestBody){
@@ -115,9 +138,9 @@ public class UserInfoController {
         UserDto dto = new UserDto();
         dto.setRequest(requestBody);
         dto.setServiceType(ActionEnum.UPDATE.name());
-        AbstractUserInfo userInfo = new UserInfoUpdate();
-        dto.setUserInfo(userInfo);
-        dto.put("dao", userDao);
+        //AbstractUserInfo userInfo = new UserInfoUpdate();
+        dto.setUserInfo(userInfoUpdate);
+
         userFacade.execute(dto);
         UserInfoResponse response = (UserInfoResponse)dto.getResponse();
 

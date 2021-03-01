@@ -1,6 +1,5 @@
 package com.ews.db.jpa;
 
-import com.ews.db.jpa.UserRowMapper;
 import com.ews.userservice.model_pojos.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Repository
-public class UserDao{
+public class UserDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
