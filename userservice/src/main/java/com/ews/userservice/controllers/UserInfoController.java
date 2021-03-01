@@ -53,14 +53,13 @@ public class UserInfoController {
         dto.setHeaders(header);
         dto.setRequest(requestBody);
         dto.setServiceType(ActionEnum.CREATE.name());
-        //AbstractUserInfo userInfo = new UserInfoAdd();
         dto.setUserInfo(userInfoAdd);
 
         boolean userInfoSuccess = userFacade.execute(dto);
         UserInfoResponse userInfoResponse = (UserInfoResponse)dto.getResponse();
         log.info(userInfoResponse);
 
-        HttpStatus status = HttpStatus.CREATED;
+        HttpStatus status = dto.getStatus();
         return new ResponseEntity<>(userInfoResponse, status);
 
     }
@@ -82,7 +81,6 @@ public class UserInfoController {
 
         dto.setServiceType(ActionEnum.RETRIEVEALL.name());
         dto.setHeaders(header);
-        //AbstractUserInfo userInfo = new UserInfoFindAll();
         dto.setUserInfo(userInfoFindAll);
 
         boolean userInfoSuccess = userFacade.execute(dto);
@@ -101,7 +99,7 @@ public class UserInfoController {
      * @return
      */
     @DeleteMapping(value ="/delete/{id}")
-    public ResponseEntity <String> deleteUser(@ModelAttribute HashMap<String, String> header,
+    public ResponseEntity <Object> deleteUser(@ModelAttribute HashMap<String, String> header,
                                               @PathVariable ("id") String userName){
 
         //todo: validate header and auth, send header to jwt validation service
@@ -112,13 +110,12 @@ public class UserInfoController {
         UserDto dto = new UserDto();
         dto.setRequest(requestBody);
         dto.setServiceType(ActionEnum.DELETE.name());
-        //AbstractUserInfo userInfo = new UserInfoDelete();
         dto.setUserInfo(userInfoDelete);
 
         boolean ok = userFacade.execute(dto);
         UserInfoResponse response = (UserInfoResponse)dto.getResponse();
 
-        return new ResponseEntity<>(response.getMessage(),status);
+        return new ResponseEntity<>(response,status);
 
     }
 
@@ -138,7 +135,6 @@ public class UserInfoController {
         UserDto dto = new UserDto();
         dto.setRequest(requestBody);
         dto.setServiceType(ActionEnum.UPDATE.name());
-        //AbstractUserInfo userInfo = new UserInfoUpdate();
         dto.setUserInfo(userInfoUpdate);
 
         userFacade.execute(dto);

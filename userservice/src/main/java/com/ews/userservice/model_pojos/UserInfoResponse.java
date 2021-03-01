@@ -20,21 +20,21 @@ public class UserInfoResponse implements UserResponseInterface {
     private String message;
     private UserDto dto;
 
-    private LocalDateTime createTimeStamp;
+    private LocalDateTime timeStamp;
     private List<UserData> userDataList;
 
     public UserInfoResponse() {
     }
 
-    public UserInfoResponse(String userName, String message, LocalDateTime createTimeStamp) {
+    public UserInfoResponse(String userName, String message, LocalDateTime timeStamp) {
         this.userName = userName;
         this.message = message;
-        this.createTimeStamp = createTimeStamp;
+        this.timeStamp = timeStamp;
     }
 
-    public UserInfoResponse(String userName, List<UserData> userDataList, LocalDateTime createTimeStamp) {
+    public UserInfoResponse(String userName, List<UserData> userDataList, LocalDateTime timeStamp) {
         this.userName = userName;
         this.userDataList = userDataList;
-        this.createTimeStamp = createTimeStamp;
+        this.timeStamp = timeStamp;
     }
 }

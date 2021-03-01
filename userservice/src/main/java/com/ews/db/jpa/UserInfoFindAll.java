@@ -17,7 +17,7 @@ public class UserInfoFindAll implements AbstractUserInfo {
     @Override
     public UserInfoResponse process(UserDto dto) {
 
-        List<UserData> userDataList = userDao.retrieveAllUsers();
+        List<UserData> userDataList = userDao.findAllUsers();
         return new UserInfoResponse(null,userDataList, LocalDateTime.now());
     }
 }

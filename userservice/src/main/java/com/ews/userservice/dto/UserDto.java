@@ -4,6 +4,7 @@ import com.ews.db.jpa.AbstractUserInfo;
 
 import com.ews.userservice.model_pojos.UserResponseInterface;
 import org.apache.commons.chain.impl.ContextBase;
+import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
 import java.util.Map;
@@ -15,6 +16,15 @@ public class UserDto extends ContextBase implements Serializable {
     private AbstractUserInfo userInfo;
     private UserResponseInterface response;
     private Map<String,String> headers;
+    private HttpStatus status;
+
+    public HttpStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(HttpStatus status) {
+        this.status = status;
+    }
 
     public UserResponseInterface getResponse() {
         return response;

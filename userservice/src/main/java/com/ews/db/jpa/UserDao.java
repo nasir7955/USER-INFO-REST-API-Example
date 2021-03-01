@@ -25,6 +25,7 @@ public class UserDao {
             "Image, password) values (?,?,?,?,?,?,?)";
     private static final String SELECTUSERS = "Select * from USERDATA";
     private static final String DELETEUSER = "Delete from USERDATA where username = ?";
+    private static final String FINDBYID   = "Select * from USERDATA Where username= ?";
     private static final String UPDATEUSER = "Update USERDATA set firstName=?, lastName =?,  email=?, password = ?, phoneNo=?, image=? where username = ?";
 
 
@@ -64,8 +65,25 @@ public class UserDao {
         jdbcTemplate.update(CREATETABLE);
     }
 
-    public List<UserData> retrieveAllUsers() {
+    public List<UserData> findAllUsers() {
         return jdbcTemplate.query(SELECTUSERS, new UserRowMapper());
+    }
+
+    public List<UserData> findByID(String userName) {
+        PreparedStatementSetter preparedStatementSetter = new PreparedStatementSetter() {
+            @Override
+            public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setString(1, userName);
+
+            }
+        };
+        try {
+            return jdbcTemplate.query(FINDBYID, preparedStatementSetter, new UserRowMapper());
+        } catch (Exception ex) {
+            return null;
+        }
+
+
     }
 
 
